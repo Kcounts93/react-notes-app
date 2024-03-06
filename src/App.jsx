@@ -9,6 +9,8 @@ import { NoteList } from "./NoteList";
 import { NoteLayout } from "./NoteLayout";
 import Note from "./Note";
 import  EditNote from "./EditNote";
+import LogoContainer from "./LogoContainer";
+
 
 
 function App() {
@@ -72,6 +74,7 @@ function App() {
 
   return (
     <Container className="my-4 text-white bg-dark">
+      <LogoContainer />
       <Routes>
         <Route path="/" 
           element={<NoteList 

@@ -21,7 +21,7 @@ export function NoteList({ availableTags, notes, onUpdateTag, onDeleteTag }) {
     return (
         <>
             <Row className="align-items-center mb-4">
-                <Col><h1>Notes</h1></Col>
+                <Col><h3>Notes</h3></Col>
                 <Col xs="auto">
                     <Stack gap={2} direction="horizontal">
                         <Link to="/new">
