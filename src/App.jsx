@@ -1,57 +1,101 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useMemo } from "react";
 import { Container } from "react-bootstrap";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { NewNote } from "./NewNote";
 import { useLocalStorage } from "./useLocalStorage";
 import { v4 as uuidV4 } from "uuid";
-
+import { NoteList } from "./NoteList";
 
 function App() {
-    const [notes, setNotes] = useLocalStorage("notes", []);
-    const [tags, setTags] = useLocalStorage("TAGS", []);
+  const [notes, setNotes] = useLocalStorage("NOTES", []);
+  const [tags, setTags] = useLocalStorage("TAGS", []);
 
-// Notes w/ tags
-    const notesWithTags = useMemo(() => {
-      return notes.map(note => {
-        return { ...note, tags: tags.filter(tag => note.tagIds.includes(tag.id)) };
+  const notesWithTags = useMemo(() => {
+    return notes.map(note => {
+      return { ...note, tags: tags.filter(tag => note.tagIds.includes(tag.id)) };
+    });
+  }, [notes, tags]);
+
+  function onCreateNote(data) {
+    setNotes(prevNotes => {
+      return [
+        ...prevNotes,
+        { ...data, id: uuidV4(), tagIds: data.tags.map(tag => tag.id) },
+      ];
+    });
+  }
+
+  function onUpdateNote(id, data) {
+    setNotes(prevNotes => {
+      return prevNotes.map(note => {
+        if (note.id === id) {
+          return { ...note, ...data, tagIds: data.tags.map(tag => tag.id) };
+        } else {
+          return note;
+        }
       });
-    }, [notes, tags]);
+    });
+  }
 
-// Create Notes
-    function onCreateNote(data) {
-      setNotes(prevNotes => {
-        return [
-          ...prevNotes,
-          { ...data, id: uuidV4(), tagIds: data.tags.map(tag => tag.id) },
-        ];
+  function onDeleteNote(id) {
+    setNotes(prevNotes => {
+      return prevNotes.filter(note => note.id !== id);
+    });
+  }
+
+  function addTag(tag) {
+    setTags(prev => [...prev, tag]);
+  }
+
+  function updateTag(id, label) {
+    setTags(prevTags => {
+      return prevTags.map(tag => {
+        if (tag.id === id) {
+          return { ...tag, label };
+        } else {
+          return tag;
+        }
       });
-    }
+    });
+  }
 
-  // Add Tag
-    function addTag(tag) {
-      setTags(prev => [...prev, tag]);
-    }
-  
+  function deleteTag(id) {
+    setTags(prevTags => {
+      return prevTags.filter(tag => tag.id !== id);
+    });
+  }
 
-
-
-<Container className="my-4 text-white">
-<Routes>
-<Route path="/" 
+  return (
+    <Container className="my-4 text-white">
+      <Routes>
+        <Route path="/" 
           element={<NoteList 
             notes={notesWithTags} 
             availableTags={tags} 
             onUpdateTag={updateTag} 
             onDeleteTag={deleteTag} />} 
         />
-  <Route path="/new" 
+        <Route path="/new" 
           element={<NewNote 
             onSubmit={onCreateNote} 
             onAddTag={addTag} 
             availableTags={tags} />} 
         />
- <Route path="/" element={<h1>hello world 3</h1>} />
- <Route path="*" element={<Navigate to="/" />} />
-</Routes>
-</Container>
+        <Route path="/:id" 
+          element={<NoteLayout notes={notesWithTags} />}>
+          <Route index element={<Note onDelete={onDeleteNote}/>} />
+          <Route path="edit" 
+            element={<EditNote 
+              onSubmit={onUpdateNote} 
+              onAddTag={addTag} 
+              availableTags={tags} />} 
+          />
+        </Route>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Container>
+  );
 }
+
+export default App;
