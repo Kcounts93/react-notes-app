@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
 import { v4 as uuidV4 } from "uuid";
 
-
 const NoteForm = ({
     onSubmit,
     onAddTag,

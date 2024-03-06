@@ -8,6 +8,7 @@ import { v4 as uuidV4 } from "uuid";
 
 function App() {
     const [notes, setNotes] = useLocalStorage("notes", []);
+    const [tags, setTags] = useLocalStorage("TAGS", []);
 
 // Notes w/ tags
     const notesWithTags = useMemo(() => {
@@ -25,6 +26,12 @@ function App() {
         ];
       });
     }
+
+  // Add Tag
+    function addTag(tag) {
+      setTags(prev => [...prev, tag]);
+    }
+  
 
 
 
