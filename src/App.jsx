@@ -2,13 +2,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useMemo } from "react";
 import { Container } from "react-bootstrap";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { NewNote } from "./NewNote";
+import NewNote from "./NewNote";
 import { useLocalStorage } from "./useLocalStorage";
 import { v4 as uuidV4 } from "uuid";
 import { NoteList } from "./NoteList";
 import { NoteLayout } from "./NoteLayout";
-import { Note } from "./Note";
-import { EditNote } from "./EditNote";
+import Note from "./Note";
+import  EditNote from "./EditNote";
 
 
 function App() {
@@ -71,7 +71,7 @@ function App() {
   }
 
   return (
-    <Container className="my-4 text-white">
+    <Container className="my-4 text-white bg-dark">
       <Routes>
         <Route path="/" 
           element={<NoteList 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { NoteForm } from "./NoteForm";
+import NoteForm from "./NoteForm";
+
 
 const NewNote = ({ onSubmit, onAddTag, availableTags }) => (
     <>

@@ -1,4 +1,4 @@
-import { NoteForm } from "./NoteForm";
+import NoteForm from "./NoteForm";
 import { useNote } from "./NoteLayout";
 
 const EditNote = ({ onSubmit, onAddTag, availableTags }) => {
