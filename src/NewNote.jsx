@@ -1,6 +1,5 @@
 import React from 'react';
 import NoteForm from "./NoteForm";
-import logo from './assets/noteyo.png';
 
 const NewNote = ({ onSubmit, onAddTag, availableTags }) => (
     <>
